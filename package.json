@@ -1,0 +1,30 @@
+{
+  "name": "create-react-bundle",
+  "version": "1.0.0",
+  "description": "An extended version of create-react-app which integrates more libraries",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "tsc && node lib/index.js"
+  },
+  "keywords": [
+    "react"
+  ],
+  "files": [
+    "lib/**/*"
+  ],
+  "author": "Danil Korennykh",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/inquirer": "^6.5.0",
+    "prettier": "^1.18.2",
+    "tslint": "^5.19.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.6.2"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "inquirer": "^7.0.0"
+  }
+}
