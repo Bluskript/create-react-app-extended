@@ -8,10 +8,12 @@ import installDependency from './helpers/installhelper';
 import path from 'path';
 import Listr from 'listr';
 import { async } from 'rxjs/internal/scheduler/async';
+import { IAnswers } from './types';
+import { tasks } from './tasks';
 
 export const pExec = promisify(exec);
 
-const defaultpackage = {
+export const defaultpackage = {
   name: 'temp',
   version: '0.1.0',
   description: '',
@@ -62,102 +64,18 @@ inquirer
       message: 'Do you want to add Redux?',
     },
   ])
-  .then(answers => {
-    const tasks = new Listr(
-      [
-        {
-          title: 'Initialize Project',
-          task: () => {
-            return new Listr(
-              [
-                {
-                  title: 'Initialize package.json',
-                  task: async () => {
-                    await fse.writeFile('./package.json', JSON.stringify(defaultpackage));
-                  },
-                },
-                {
-                  title: 'Install React',
-                  task: async () => {
-                    await installDependency(answers.packagemanager, 'react');
-                  },
-                },
-                {
-                  title: 'Install React-DOM',
-                  task: async () => {
-                    await installDependency(answers.packagemanager, 'react-dom');
-                  },
-                },
-                {
-                  title: 'Install React-Scripts',
-                  task: async () => {
-                    await installDependency(answers.packagemanager, 'react-scripts');
-                  },
-                },
-              ],
-              { concurrent: true },
-            );
-          },
-        },
-        {
-          title: 'Initialize Git',
-          enabled: ctx => answers.repo,
-          task: async () => {
-            await pExec('git init');
-          },
-        },
-        {
-          title: 'Add Public Resources',
-          task: async () => {
-            await fse.copy(path.join(__dirname, 'generator', 'public'), './public');
-          },
-        },
-        {
-          title: 'Configure Typescript',
-          task: async () => {
-            await fse.copyFile(path.join(__dirname, 'generator', 'typescript', 'tsconfig.json'), './tsconfig.json');
-          },
-        },
-        {
-          title: 'Generate Source',
-          task: () => {
-            return new Listr(
-              [
-                {
-                  title: 'Add CSS',
-                  task: async () => await fse.copy(path.join(__dirname, 'generator', 'src', 'css'), './src/css'),
-                },
-                {
-                  title: 'Add Typescript',
-                  enabled: ctx => answers.typescript,
-                  task: async () => {
-                    await Promise.all([installDependency(answers.packagemanager, '@types/react @types/react-dom'), fse.copy(path.join(__dirname, 'generator', 'src', 'typescript'), './src')]);
-                  },
-                },
-                {
-                  title: 'Add Javascript',
-                  enabled: ctx => !answers.typescript,
-                  task: async () => {
-                    await fse.copy(path.join(__dirname, 'generator', 'src', 'javascript'), './src');
-                  },
-                },
-              ],
-              { concurrent: true },
-            );
-          },
-        },
-      ],
-      { concurrent: true },
-    );
+  .then((answers: IAnswers) => {
     mkdirSync(`./${answers.projectname}`);
     process.chdir(answers.projectname);
     defaultpackage.name = answers.projectname;
     defaultpackage.description = 'A React App made with create-react-bundle';
     fse.mkdir('./src');
 
-    tasks.run().catch(err => {
-      console.warn(err);
-    });
+    tasks(answers)
+      .run()
+      .catch(err => {
+        console.warn(err);
+      });
   });
 
 process.on('unhandledRejection', err => {
