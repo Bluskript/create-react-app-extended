@@ -87,6 +87,8 @@ export function tasks(answers: IAnswers): Listr {
         },
       },
     ],
-    { concurrent: true },
+    // THIS IS NECESSARY TO PREVENT AUTOCOLLAPSE. SOMEONE PLZ ADD THIS TO THE TYPES REPO <3
+    // @ts-ignore
+    { concurrent: true, collapse: false },
   );
 }
