@@ -5,8 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && mv generator lib/generator",
-    "start": "tsc && mv generator lib/generator && node lib/index.js"
+    "build": "tsc && cp -r generator lib/generator",
+    "start": "tsc && cp -r generator lib/generator && node lib/index.js"
   },
   "keywords": [
     "react"
@@ -25,8 +25,10 @@
   },
   "dependencies": {
     "@types/fs-extra": "^8.0.0",
+    "@types/listr": "^0.14.2",
     "chalk": "^2.4.2",
     "fs-extra": "^8.1.0",
-    "inquirer": "^7.0.0"
+    "inquirer": "^7.0.0",
+    "listr": "^0.14.3"
   }
 }
