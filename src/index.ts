@@ -1,15 +1,18 @@
+/**
+ * @name create-rect-bundle
+ * @description A small CLI program made to generate react apps with extensive features.
+ * @author Bluskript
+ */
+
 import chalk from 'chalk';
 import { exec } from 'child_process';
 import { mkdirSync } from 'fs';
 import fse from 'fs-extra';
 import inquirer from 'inquirer';
 import { promisify } from 'util';
-import installDependency from './helpers/installhelper';
-import path from 'path';
-import Listr from 'listr';
-import { async } from 'rxjs/internal/scheduler/async';
-import { IAnswers } from './types';
+import { prompts } from './prompts';
 import { tasks } from './tasks';
+import { IAnswers } from './types';
 
 export const pExec = promisify(exec);
 
@@ -34,49 +37,19 @@ export const defaultpackage = {
   devDependencies: {},
 };
 
-inquirer
-  .prompt([
-    {
-      name: 'projectname',
-      message: 'What do you wish to name your project?',
-    },
-    {
-      name: 'repo',
-      message: 'Would you like to initialize a git repository?',
-      type: 'confirm',
-      default: true,
-    },
-    {
-      name: 'packagemanager',
-      message: 'What package manager do you wish to use?',
-      type: 'list',
-      choices: ['npm', 'yarn', 'pnpm'],
-    },
-    {
-      name: 'typescript',
-      type: 'confirm',
-      message: 'Do you want to use typescript?',
-    },
-    {
-      name: 'redux',
-      type: 'confirm',
-      default: false,
-      message: 'Do you want to add Redux?',
-    },
-  ])
-  .then((answers: IAnswers) => {
-    mkdirSync(`./${answers.projectname}`);
-    process.chdir(answers.projectname);
-    defaultpackage.name = answers.projectname;
-    defaultpackage.description = 'A React App made with create-react-bundle';
-    fse.mkdir('./src');
+inquirer.prompt<IAnswers>(prompts).then((answers: IAnswers) => {
+  mkdirSync(`./${answers.projectname}`);
+  process.chdir(answers.projectname);
+  defaultpackage.name = answers.projectname;
+  defaultpackage.description = 'A React App made with create-react-bundle';
+  fse.mkdir('./src');
 
-    tasks(answers)
-      .run()
-      .catch(err => {
-        console.warn(err);
-      });
-  });
+  tasks(answers)
+    .run()
+    .catch(err => {
+      console.warn(err);
+    });
+});
 
 process.on('unhandledRejection', err => {
   console.log(chalk.red('Failed to create project!'));

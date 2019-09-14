@@ -2,8 +2,8 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "declaration": true,
-    "outDir": "./lib",
+    "declaration": false,
+    "outDir": "./build",
     "strict": true,
     "esModuleInterop": true
   },

@@ -2,7 +2,7 @@ import fse from 'fs-extra';
 import Listr from 'listr';
 import path from 'path';
 import { defaultpackage, pExec } from '.';
-import installDependency from './helpers/installhelper';
+import { installDependency } from './helpers/installhelper';
 import { IAnswers } from './types';
 
 export function tasks(answers: IAnswers): Listr {
@@ -36,12 +36,39 @@ export function tasks(answers: IAnswers): Listr {
                 await installDependency(answers.packagemanager, 'react-scripts');
               },
             },
+            {
+              title: 'Install Redux',
+              enabled: () => answers.redux,
+              task: () => {
+                return new Listr([
+                  {
+                    title: "Install Redux Base",
+                    task: async () => {
+                      await installDependency(answers.packagemanager, 'redux')
+                    }
+                  },
+                  {
+                    title: "Install React Redux",
+                    task: async () => {
+                      await installDependency(answers.packagemanager, 'react-redux');
+                    }
+                  },
+                  {
+                    title: "Install Redux Types",
+                    enabled: () => answers.typescript,
+                    task: async () => {
+                      await installDependency(answers.packagemanager, '@types/react-redux')
+                    }
+                  }
+                ])
+              }
+            }
           ]);
         },
       },
       {
         title: 'Initialize Git',
-        enabled: ctx => answers.repo,
+        enabled: () => answers.repo,
         task: async () => {
           await pExec('git init');
         },
@@ -69,14 +96,17 @@ export function tasks(answers: IAnswers): Listr {
               },
               {
                 title: 'Add Typescript',
-                enabled: ctx => answers.typescript,
+                enabled: () => answers.typescript,
                 task: async () => {
-                  await Promise.all([installDependency(answers.packagemanager, '@types/react @types/react-dom'), fse.copy(path.join(__dirname, 'generator', 'src', 'typescript'), './src')]);
+                  await Promise.all([
+                    installDependency(answers.packagemanager, '@types/react @types/react-dom'),
+                    fse.copy(path.join(__dirname, 'generator', 'src', 'typescript'), './src')
+                  ]);
                 },
               },
               {
                 title: 'Add Javascript',
-                enabled: ctx => !answers.typescript,
+                enabled: () => !answers.typescript,
                 task: async () => {
                   await fse.copy(path.join(__dirname, 'generator', 'src', 'javascript'), './src');
                 },
@@ -87,7 +117,7 @@ export function tasks(answers: IAnswers): Listr {
         },
       },
     ],
-    // THIS IS NECESSARY TO PREVENT AUTOCOLLAPSE. SOMEONE PLZ ADD THIS TO THE TYPES REPO <3
+    // collapse is an option that exists but isn't documented. Someone fix this in @types/listr please <3
     // @ts-ignore
     { concurrent: true, collapse: false },
   );

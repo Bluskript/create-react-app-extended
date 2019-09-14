@@ -2,17 +2,17 @@
   "name": "create-react-bundle",
   "version": "1.0.0",
   "description": "An extended version of create-react-app which integrates more libraries",
-  "main": "lib/index.js",
+  "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && cp -r generator lib/generator",
-    "start": "tsc && cp -r generator lib/generator && node lib/index.js"
+    "build": "tsc && cp -r generator rbuild/generator",
+    "start": "tsc && cp -r generator build/generator && node build/index.js"
   },
   "keywords": [
     "react"
   ],
   "files": [
-    "lib/**/*"
+    "build/**/*"
   ],
   "author": "Danil Korennykh",
   "license": "MIT",
