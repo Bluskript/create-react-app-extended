@@ -1,5 +1,5 @@
 {
-  "name": "create-react-bundle",
+  "name": "create-react-app-extended",
   "version": "1.0.0",
   "description": "An extended version of create-react-app which integrates more libraries",
   "main": "build/index.js",
@@ -14,7 +14,7 @@
   "files": [
     "build/**/*"
   ],
-  "author": "Danil Korennykh",
+  "author": "Bluskript",
   "license": "MIT",
   "devDependencies": {
     "@types/inquirer": "^6.5.0",
