@@ -20,6 +20,7 @@ export const defaultpackage = {
   name: 'temp',
   version: '0.1.0',
   description: '',
+  "private": true,
   scripts: {
     start: 'react-scripts start',
     build: 'react-scripts build',

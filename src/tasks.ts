@@ -42,27 +42,27 @@ export function tasks(answers: IAnswers): Listr {
               task: () => {
                 return new Listr([
                   {
-                    title: "Install Redux Base",
+                    title: 'Install Redux Base',
                     task: async () => {
-                      await installDependency(answers.packagemanager, 'redux')
-                    }
+                      await installDependency(answers.packagemanager, 'redux');
+                    },
                   },
                   {
-                    title: "Install React Redux",
+                    title: 'Install React Redux',
                     task: async () => {
                       await installDependency(answers.packagemanager, 'react-redux');
-                    }
+                    },
                   },
                   {
-                    title: "Install Redux Types",
+                    title: 'Install Redux Types',
                     enabled: () => answers.typescript,
                     task: async () => {
-                      await installDependency(answers.packagemanager, '@types/react-redux')
-                    }
-                  }
-                ])
-              }
-            }
+                      await installDependency(answers.packagemanager, '@types/react-redux');
+                    },
+                  },
+                ]);
+              },
+            },
           ]);
         },
       },
@@ -98,17 +98,30 @@ export function tasks(answers: IAnswers): Listr {
                 title: 'Add Typescript',
                 enabled: () => answers.typescript,
                 task: async () => {
-                  await Promise.all([
-                    installDependency(answers.packagemanager, '@types/react @types/react-dom'),
-                    fse.copy(path.join(__dirname, 'generator', 'src', 'typescript'), './src')
-                  ]);
+                  if (answers.redux) {
+                    await Promise.all([installDependency(answers.packagemanager, '@types/react @types/react-dom'), fse.copy(path.join(__dirname, 'generator', 'src', 'typescript', 'Redux'), './src')]);
+                  } else {
+                    await Promise.all([installDependency(answers.packagemanager, '@types/react @types/react-dom'), fse.copy(path.join(__dirname, 'generator', 'src', 'typescript', 'Normal'), './src')]);
+                  }
                 },
               },
               {
                 title: 'Add Javascript',
                 enabled: () => !answers.typescript,
                 task: async () => {
-                  await fse.copy(path.join(__dirname, 'generator', 'src', 'javascript'), './src');
+                  if (answers.redux) {
+                    await fse.copy(path.join(__dirname, 'generator', 'src', 'javascript', 'Redux'), './src');
+                  } else {
+                    await fse.copy(path.join(__dirname, 'generator', 'src', 'javascript', 'Normal'), './src');
+                  }
+                },
+              },
+              {
+                title: 'Add Redux',
+                enabled: () => answers.redux,
+                task: async () => {
+                  fse.mkdirSync('./src/store');
+                  await fse.copy(path.join(__dirname, 'generator', 'src', 'store', 'typescript'), './src/store');
                 },
               },
             ],

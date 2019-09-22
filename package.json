@@ -5,8 +5,8 @@
   "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && cp -r generator rbuild/generator",
-    "start": "tsc && cp -r generator build/generator && node build/index.js"
+    "build": "tsc && cp -r generator build/",
+    "start": "tsc && cp -r generator build/ && node build/index.js"
   },
   "keywords": [
     "react"
