@@ -3,13 +3,20 @@
   "version": "1.0.0",
   "description": "An extended version of create-react-app which integrates more libraries",
   "main": "build/index.js",
+  "homepage": "https://github.com/Bluskript/create-react-app-extended",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bluskript/create-react-app-extended"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && cp -r generator build/",
     "start": "tsc && cp -r generator build/ && node build/index.js"
   },
   "keywords": [
-    "react"
+    "react",
+    "create-react-app",
+    "react app generator"
   ],
   "files": [
     "build/**/*",

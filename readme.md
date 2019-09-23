@@ -1,4 +1,4 @@
-# Create React Bundle
+# Create React App Extended
 
 ### An NPM package designed to make react app creation even faster
 
