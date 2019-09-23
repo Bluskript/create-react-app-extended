@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 /**
  * @name create-rect-bundle
  * @description A small CLI program made to generate react apps with extensive features.
@@ -10,17 +11,18 @@ import { mkdirSync } from 'fs';
 import fse from 'fs-extra';
 import inquirer from 'inquirer';
 import { promisify } from 'util';
+import { IPackage } from './defaultpackage';
 import { prompts } from './prompts';
 import { tasks } from './tasks';
 import { IAnswers } from './types';
 
 export const pExec = promisify(exec);
 
-export const defaultpackage = {
+export const defaultpackage: IPackage = {
   name: 'temp',
   version: '0.1.0',
   description: '',
-  "private": true,
+  private: true,
   scripts: {
     start: 'react-scripts start',
     build: 'react-scripts build',
@@ -42,7 +44,7 @@ inquirer.prompt<IAnswers>(prompts).then((answers: IAnswers) => {
   mkdirSync(`./${answers.projectname}`);
   process.chdir(answers.projectname);
   defaultpackage.name = answers.projectname;
-  defaultpackage.description = 'A React App made with create-react-bundle';
+  defaultpackage.description = 'A React App made with create-react-app-extended';
   fse.mkdir('./src');
 
   tasks(answers)

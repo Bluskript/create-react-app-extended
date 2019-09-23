@@ -12,8 +12,12 @@
     "react"
   ],
   "files": [
-    "build/**/*"
+    "build/**/*",
+    "package.json"
   ],
+  "bin": {
+    "create-react-app-extended": "build/index.js"
+  },
   "author": "Bluskript",
   "license": "MIT",
   "devDependencies": {

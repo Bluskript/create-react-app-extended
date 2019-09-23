@@ -6,4 +6,5 @@ export interface IAnswers {
   packagemanager: managertype;
   typescript: boolean;
   redux: boolean;
+  electron: boolean;
 }

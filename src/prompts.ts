@@ -16,6 +16,12 @@ export const prompts = [
     choices: ['npm', 'yarn', 'pnpm'],
   },
   {
+    name: 'electron',
+    message: 'Do you want to make your app an Electron app?',
+    type: 'confirm',
+    default: false,
+  },
+  {
     name: 'typescript',
     type: 'confirm',
     message: 'Do you want to use typescript?',
