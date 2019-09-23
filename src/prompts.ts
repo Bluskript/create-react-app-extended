@@ -31,5 +31,5 @@ export const prompts = [
     type: 'confirm',
     default: false,
     message: 'Do you want to add Redux?',
-  },
+  }
 ];

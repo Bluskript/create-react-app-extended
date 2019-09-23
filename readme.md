@@ -6,10 +6,6 @@
 
 ## Installation
 
-```
-npm i -g create-react-app-extended
-```
-
-```
-create-react-app-extended
+```sh
+npx create-react-app-extended
 ```
