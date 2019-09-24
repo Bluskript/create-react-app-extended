@@ -82,7 +82,7 @@ export function tasks(answers: IAnswers): Listr {
               },
             },
             {
-              title: 'Add React',
+              title: 'Install React',
               task: async () => {
                 await installDependency(answers.packagemanager, 'react');
               },
