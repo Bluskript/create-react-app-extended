@@ -5,18 +5,10 @@
  * @description A small CLI program made to generate react apps with extensive features.
  * @author Bluskript
  */
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var chalk_1 = __importDefault(require("chalk"));
 var child_process_1 = require("child_process");
-var fs_1 = require("fs");
-var fs_extra_1 = __importDefault(require("fs-extra"));
-var inquirer_1 = __importDefault(require("inquirer"));
 var util_1 = require("util");
-var prompts_1 = require("./prompts");
-var tasks_1 = require("./tasks");
+var codehelper_1 = require("./helpers/codehelper");
 exports.pExec = util_1.promisify(child_process_1.exec);
 exports.defaultpackage = {
     name: 'temp',
@@ -31,7 +23,11 @@ exports.defaultpackage = {
     },
     browserslist: {
         production: ['>0.2%', 'not dead', 'not op_mini all'],
-        development: ['last 1 chrome version', 'last 1 firefox version', 'last 1 safari version'],
+        development: [
+            'last 1 chrome version',
+            'last 1 firefox version',
+            'last 1 safari version',
+        ],
     },
     keywords: [],
     author: '',
@@ -39,20 +35,29 @@ exports.defaultpackage = {
     dependencies: {},
     devDependencies: {},
 };
-inquirer_1.default.prompt(prompts_1.prompts).then(function (answers) {
-    fs_1.mkdirSync("./" + answers.projectname);
-    process.chdir(answers.projectname);
-    exports.defaultpackage.name = answers.projectname;
-    exports.defaultpackage.description = 'A React App made with create-react-app-extended';
-    fs_extra_1.default.mkdir('./src');
-    tasks_1.tasks(answers)
-        .run()
-        .catch(function (err) {
-        console.warn(err);
-    });
-});
-process.on('unhandledRejection', function (err) {
-    console.log(chalk_1.default.red('Failed to create project!'));
-    console.log(chalk_1.default.red('Please report the following to the github : '));
-    console.error(err);
-});
+codehelper_1.generateCodeFromTemplate({
+    imports: {
+        test: false,
+    },
+    name: 'test',
+    code: '<test>',
+    functional: true,
+    hocs: ['test'],
+}, 'test');
+// inquirer.prompt<IAnswers>(prompts).then((answers: IAnswers) => {
+//   mkdirSync(`./${answers.projectname}`);
+//   process.chdir(answers.projectname);
+//   defaultpackage.name = answers.projectname;
+//   defaultpackage.description = 'A React App made with create-react-app-extended';
+//   fse.mkdir('./src');
+//   tasks(answers)
+//     .run()
+//     .catch(err => {
+//       console.warn(err);
+//     });
+// });
+// process.on('unhandledRejection', err => {
+//   console.log(chalk.red('Failed to create project!'));
+//   console.log(chalk.red('Please report the following to the github : '));
+//   console.error(err);
+// });

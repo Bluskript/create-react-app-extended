@@ -7,4 +7,15 @@ export interface IAnswers {
   typescript: boolean;
   redux: boolean;
   electron: boolean;
+  hotloader: boolean;
+}
+
+export interface ITemplate {
+  imports: {
+    [key: string]: { destructure: boolean };
+  };
+  name: string;
+  code: string;
+  functional: boolean;
+  hocs: string[];
 }

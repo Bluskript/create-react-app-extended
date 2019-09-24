@@ -440,7 +440,7 @@ function tasks(answers) {
                             });
                         }); },
                     },
-                ], { concurrent: true });
+                ]);
             },
         },
     ], { concurrent: true });

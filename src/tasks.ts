@@ -242,84 +242,81 @@ export function tasks(answers: IAnswers): Listr {
       {
         title: 'Generate Source',
         task: () => {
-          return new Listr(
-            [
-              {
-                title: 'Add CSS',
-                task: async () =>
-                  await fse.copy(
-                    path.join(__dirname, 'generator', 'src', 'css'),
-                    './src/css',
-                  ),
-              },
-              {
-                title: 'Add Images',
-                task: async () =>
-                  await fse.copy(
-                    path.join(__dirname, 'generator', 'src', 'img'),
-                    './src/img',
-                  ),
-              },
-              {
-                title: 'Add Typescript',
-                enabled: () => answers.typescript,
-                task: async () => {
-                  if (answers.redux) {
-                    await Promise.all([
-                      installDependency(
-                        answers.packagemanager,
-                        '@types/react @types/react-dom',
-                      ),
-                      fse.copy(
-                        path.join(__dirname, 'generator', 'src', 'typescript', 'Redux'),
-                        './src',
-                      ),
-                    ]);
-                  } else {
-                    await Promise.all([
-                      installDependency(
-                        answers.packagemanager,
-                        '@types/react @types/react-dom',
-                      ),
-                      fse.copy(
-                        path.join(__dirname, 'generator', 'src', 'typescript', 'Normal'),
-                        './src',
-                      ),
-                    ]);
-                  }
-                },
-              },
-              {
-                title: 'Add Javascript',
-                enabled: () => !answers.typescript,
-                task: async () => {
-                  if (answers.redux) {
-                    await fse.copy(
-                      path.join(__dirname, 'generator', 'src', 'javascript', 'Redux'),
+          return new Listr([
+            {
+              title: 'Add CSS',
+              task: async () =>
+                await fse.copy(
+                  path.join(__dirname, 'generator', 'src', 'css'),
+                  './src/css',
+                ),
+            },
+            {
+              title: 'Add Images',
+              task: async () =>
+                await fse.copy(
+                  path.join(__dirname, 'generator', 'src', 'img'),
+                  './src/img',
+                ),
+            },
+            {
+              title: 'Add Typescript',
+              enabled: () => answers.typescript,
+              task: async () => {
+                if (answers.redux) {
+                  await Promise.all([
+                    installDependency(
+                      answers.packagemanager,
+                      '@types/react @types/react-dom',
+                    ),
+                    fse.copy(
+                      path.join(__dirname, 'generator', 'src', 'typescript', 'Redux'),
                       './src',
-                    );
-                  } else {
-                    await fse.copy(
-                      path.join(__dirname, 'generator', 'src', 'javascript', 'Normal'),
+                    ),
+                  ]);
+                } else {
+                  await Promise.all([
+                    installDependency(
+                      answers.packagemanager,
+                      '@types/react @types/react-dom',
+                    ),
+                    fse.copy(
+                      path.join(__dirname, 'generator', 'src', 'typescript', 'Normal'),
                       './src',
-                    );
-                  }
-                },
+                    ),
+                  ]);
+                }
               },
-              {
-                title: 'Add Redux',
-                enabled: () => answers.redux,
-                task: async () => {
-                  fse.mkdirSync('./src/store');
+            },
+            {
+              title: 'Add Javascript',
+              enabled: () => !answers.typescript,
+              task: async () => {
+                if (answers.redux) {
                   await fse.copy(
-                    path.join(__dirname, 'generator', 'src', 'store', 'typescript'),
-                    './src/store',
+                    path.join(__dirname, 'generator', 'src', 'javascript', 'Redux'),
+                    './src',
                   );
-                },
+                } else {
+                  await fse.copy(
+                    path.join(__dirname, 'generator', 'src', 'javascript', 'Normal'),
+                    './src',
+                  );
+                }
               },
-            ],
-            { concurrent: true },
-          );
+            },
+            {
+              title: 'Add Redux',
+              enabled: () => answers.redux,
+              task: async () => {
+                fse.mkdirSync('./src/store');
+                await fse.copy(
+                  path.join(__dirname, 'generator', 'src', 'store', 'typescript'),
+                  './src/store',
+                );
+              },
+            },
+          ]);
         },
       },
     ],

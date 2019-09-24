@@ -15,6 +15,7 @@ import { IPackage } from './defaultpackage';
 import { prompts } from './prompts';
 import { tasks } from './tasks';
 import { IAnswers } from './types';
+import { generateCodeFromTemplate } from './helpers/codehelper';
 
 export const pExec = promisify(exec);
 
@@ -31,7 +32,11 @@ export const defaultpackage: IPackage = {
   },
   browserslist: {
     production: ['>0.2%', 'not dead', 'not op_mini all'],
-    development: ['last 1 chrome version', 'last 1 firefox version', 'last 1 safari version'],
+    development: [
+      'last 1 chrome version',
+      'last 1 firefox version',
+      'last 1 safari version',
+    ],
   },
   keywords: [],
   author: '',
@@ -40,22 +45,35 @@ export const defaultpackage: IPackage = {
   devDependencies: {},
 };
 
-inquirer.prompt<IAnswers>(prompts).then((answers: IAnswers) => {
-  mkdirSync(`./${answers.projectname}`);
-  process.chdir(answers.projectname);
-  defaultpackage.name = answers.projectname;
-  defaultpackage.description = 'A React App made with create-react-app-extended';
-  fse.mkdir('./src');
+generateCodeFromTemplate(
+  {
+    imports: {
+      test: { destructure: false },
+    },
+    name: 'test',
+    code: '<test>',
+    functional: true,
+    hocs: ['test'],
+  },
+  'test',
+);
 
-  tasks(answers)
-    .run()
-    .catch(err => {
-      console.warn(err);
-    });
-});
+// inquirer.prompt<IAnswers>(prompts).then((answers: IAnswers) => {
+//   mkdirSync(`./${answers.projectname}`);
+//   process.chdir(answers.projectname);
+//   defaultpackage.name = answers.projectname;
+//   defaultpackage.description = 'A React App made with create-react-app-extended';
+//   fse.mkdir('./src');
 
-process.on('unhandledRejection', err => {
-  console.log(chalk.red('Failed to create project!'));
-  console.log(chalk.red('Please report the following to the github : '));
-  console.error(err);
-});
+//   tasks(answers)
+//     .run()
+//     .catch(err => {
+//       console.warn(err);
+//     });
+// });
+
+// process.on('unhandledRejection', err => {
+//   console.log(chalk.red('Failed to create project!'));
+//   console.log(chalk.red('Please report the following to the github : '));
+//   console.error(err);
+// });
