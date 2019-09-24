@@ -37,13 +37,15 @@ exports.defaultpackage = {
 };
 codehelper_1.generateCodeFromTemplate({
     imports: {
-        test: false,
+        fse: { package: 'fs-extra', destructure: true },
+        path: { package: 'path', destructure: false },
     },
+    typescript: true,
     name: 'test',
-    code: '<test>',
+    code: '<p>test</p>',
     functional: true,
-    hocs: ['test'],
-}, 'test');
+    hocs: ['hot', 'epic', 'gamer', 'moment'],
+}, 'test.tsx');
 // inquirer.prompt<IAnswers>(prompts).then((answers: IAnswers) => {
 //   mkdirSync(`./${answers.projectname}`);
 //   process.chdir(answers.projectname);

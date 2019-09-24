@@ -12,8 +12,9 @@ export interface IAnswers {
 
 export interface ITemplate {
   imports: {
-    [key: string]: { destructure: boolean };
+    [key: string]: { package: string; destructure: boolean };
   };
+  typescript: boolean;
   name: string;
   code: string;
   functional: boolean;

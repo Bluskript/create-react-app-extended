@@ -48,14 +48,16 @@ export const defaultpackage: IPackage = {
 generateCodeFromTemplate(
   {
     imports: {
-      test: { destructure: false },
+      fse: { package: 'fs-extra', destructure: true },
+      path: { package: 'path', destructure: false },
     },
+    typescript: true,
     name: 'test',
-    code: '<test>',
+    code: '<p>test</p>',
     functional: true,
-    hocs: ['test'],
+    hocs: ['hot', 'epic', 'gamer', 'moment'],
   },
-  'test',
+  'test.tsx',
 );
 
 // inquirer.prompt<IAnswers>(prompts).then((answers: IAnswers) => {

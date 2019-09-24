@@ -10,8 +10,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && cp -r generator build/",
-    "start": "tsc && cp -r generator build/ && node build/index.js"
+    "build": "tsc build/",
+    "start": "tsc && node build/index.js"
   },
   "keywords": [
     "react",
@@ -37,6 +37,7 @@
   "dependencies": {
     "@types/fs-extra": "^8.0.0",
     "@types/listr": "^0.14.2",
+    "@types/prettier": "^1.18.2",
     "chalk": "^2.4.2",
     "fs-extra": "^8.1.0",
     "inquirer": "^7.0.0",
